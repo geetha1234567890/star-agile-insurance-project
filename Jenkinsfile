@@ -57,7 +57,7 @@ node{
         }
 
     stage('Deploy Docker Container') {
-                sh 'sudo docker run -itd -p 8082:8081 geethgulabrathod/insure-me:4.0'
+                sh 'sudo docker run -itd -p 8082:8081 geethgulabrathod/insure-me:3.0'
         }
         
         
