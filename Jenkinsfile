@@ -52,9 +52,13 @@ node{
             
         }
         
-    stage('Configure and Deploy to the test-server'){
-        ansiblePlaybook become: true, credentialsId: 'ansible-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansible-playbook.yml'
-    }
+    stage('Start Docker Service') {
+                sh 'sudo service docker start'
+        }
+
+    stage('Deploy Docker Container') {
+                sh 'sudo docker run -itd -p 8084:8081 geethgulabrathod/insure-me:3.0'
+        }
         
         
     }
