@@ -41,7 +41,7 @@ node{
     
     stage('Containerize the application'){
         echo 'Creating Docker image'
-        sh "${dockerCMD} sudo docker build -t geethgulabrathod/insure-mee:${tagName} ."
+        sh "${dockerCMD} docker build -t geethgulabrathod/insure-mee:${tagName} ."
     }
     
     stage('Pushing it ot the DockerHub'){
