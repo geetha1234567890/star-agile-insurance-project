@@ -39,27 +39,27 @@ node{
         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Capstone-Project-Live-Demo/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
     }
     
-    stage('Containerize the application'){
-        echo 'Creating Docker image'
-        sh "${dockerCMD} docker build -t geethgulabrathod/insure-mee:3.0 ."
-    }
-    
-    stage('Pushing it ot the DockerHub'){
-        echo 'Pushing the docker image to DockerHub'
-        withCredentials([string(credentialsId: 'dock-password', variable: 'dockerHubPassword')]) {
-        sh "${dockerCMD} login -u geethgulabrathod -p ${dockerHubPassword}"
-        sh "${dockerCMD} docker push geethgulabrathod/insure-mee:3.0"
-            
-        }
-        
-    stage('Start Docker Service') {
-                sh 'sudo service docker start'
-        }
+   stage('Containerize the application') {
+    echo 'Creating Docker image'
+    sh "${dockerCMD} build -t geethgulabrathod/insure-mee:3.0 ."
+}
 
-    stage('Deploy Docker Container') {
-                sh 'sudo docker run -itd -p 8085:8081 geethgulabrathod/insure-mee:3.0'
-        }
+stage('Pushing it to DockerHub') {
+    echo 'Pushing the Docker image to DockerHub'
+    withCredentials([string(credentialsId: 'dock-password', variable: 'dockerHubPassword')]) {
+        sh "${dockerCMD} login -u geethgulabrathod -p ${dockerHubPassword}"
+        sh "${dockerCMD} push geethgulabrathod/insure-mee:3.0"
     }
+}
+
+stage('Start Docker Service') {
+    sh 'sudo service docker start'
+}
+
+stage('Deploy Docker Container') {
+    sh 'sudo docker run -itd -p 8085:8081 geethgulabrathod/insure-mee:3.0'
+}
+
          
         
     stage('Configure and Deploy to the test-server'){
