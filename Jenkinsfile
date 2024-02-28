@@ -57,12 +57,19 @@ node{
         }
 
     stage('Deploy Docker Container') {
-                sh 'sudo docker run -itd -p 8085:8081 geethgulabrathod/insure-me:3.0'
+                sh 'sudo docker run -itd -p 8085:8081 geethgulabrathod/insure-me:4.0'
         }
-        
-        
     }
-}
+         
+        
+    stage('Configure and Deploy to the test-server'){
+        ansiblePlaybook become: true, credentialsId: 'ansible-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansible-playbook.yml'
+    }
+        
+    }     
+        
+
+
 
 
 
